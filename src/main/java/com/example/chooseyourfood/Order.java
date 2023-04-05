@@ -29,6 +29,10 @@ public class Order {
         numberOfOrders++;
     }
 
+    public void deleteOrders(){
+        numberOfOrders=0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

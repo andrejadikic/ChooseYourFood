@@ -3,6 +3,7 @@ package com.example.chooseyourfood;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -11,15 +12,13 @@ import javax.servlet.annotation.*;
 public class UserServlet extends HttpServlet {
     private boolean flag;
     private Map<String, List<String>> food;
-    private Map<String, List<Order>> orderForUser;
     private List<String> users;
-    private Map<String, List<Order>> foodForDay;
     private List<Order> orders;
 
     public void init() {
         food = new LinkedHashMap<>();
-        //meals = new LinkedHashMap<>();
         orders = new LinkedList<>();
+        users = new CopyOnWriteArrayList<>();
         flag = true;
         food.put("ponedeljak",foodForDay("ponedeljak.txt"));
         food.put("utorak",foodForDay("utorak.txt"));
@@ -33,7 +32,7 @@ public class UserServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if(flag) {
+        if(flag || (Boolean) getServletContext().getAttribute(request.getSession().getId())) {
             response.setContentType("text/html");
             request.setAttribute("food", food);
             request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
@@ -44,6 +43,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/potvrda.html");
         flag=false;
         getServletContext().setAttribute(request.getSession().getId(),false);
         List<Order> list = new ArrayList<>();
@@ -55,10 +55,11 @@ public class UserServlet extends HttpServlet {
             }
             synchronized (this){
                 list.add(order);
-                users.add(request.getSession().getId());
             }
         }
 
+        users.add(request.getSession().getId());
+        getServletContext().setAttribute("users", users);
 
 //        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/andrejadikic/projekti/ChooseYourFood/ChooseYourFood/nesto.txt"));
 //        bufferedWriter.write("njnj");
@@ -67,8 +68,7 @@ public class UserServlet extends HttpServlet {
 //        request.setAttribute("food", food);
         //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 
-        response.setStatus(200);
-        response.sendRedirect("/potvrda.html");
+
     }
 
     public void destroy() {

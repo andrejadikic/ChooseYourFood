@@ -32,7 +32,7 @@ public class HelloServlet extends HttpServlet {
         }
         PrintWriter out = response.getWriter();
         out.println("<html><body><form method=\"POST\" action = \"orders\">");
-        out.println("<h1>" + "Meals" + "</h1>");
+        out.println("<h1>" + "Orders" + "</h1>");
         out.println("<html><body>");
 
         List<Order> listOfMeals = (List<Order>) getServletContext().getAttribute("allOrders");
@@ -65,14 +65,14 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         List<Order> listOfMeals = (List<Order>) getServletContext().getAttribute("allOrders");
-        for (Meal o: listOfMeals) {
-            o.setOrderNumber(0);
+        for (Order o: listOfMeals) {
+            o.deleteOrders();
         }
-        Map<String, List<Meal>> map = (Map<String, List<Meal>>) getServletContext().getAttribute("map");
-        for (Map.Entry<String, List<Meal>> m: map.entrySet()){
-            getServletContext().setAttribute(m.getKey(), null);
+        List<String> users = (List<String>) getServletContext().getAttribute("users");
+        for (String user:users){
+            getServletContext().setAttribute(user, true);
         }
-        getServletContext().setAttribute("map", map);
+        getServletContext().setAttribute("users", users);
     }
 
 
