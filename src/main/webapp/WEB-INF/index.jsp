@@ -1,3 +1,8 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,42 +16,46 @@
 <body>
 <h1 style="text-align: center;   padding: 1em;">Choose your food</h1>
 <h2 style="text-align: center;">Odaberite Vaš ručak</h2>
-<form name="form" style="text-align: center;">
-    <label class="paylabel" for="ponedeljak">Ponedeljak:</label>
-    <select id="ponedeljak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
-        <option selected value="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    <label class="paylabel" for="utorak">Utorak:</label>
-    <select id="utorak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
-        <option value="" selected>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    <label class="paylabel" for="sreda">Sreda:</label>
-    <select id="sreda" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
-        <option selected value="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    <label class="paylabel" for="cetvrtak">Četvrtak:</label>
-    <select id="cetvrtak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
-        <option selected value="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    <label class="paylabel" for="petak">Petak:</label>
-    <select id="petak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
-        <option selected value="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
+<form name="form" style="text-align: center;" method="post" action="user">
+
+    <c:forEach items="${food}" var="entry">
+        <label class="paylabel" for="${entry.key}">${entry.key}:</label>
+        <select id="${entry.key}" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">
+            <option value="" selected>Open this select menu</option>
+            <c:forEach items="${entry.value}" var="item" varStatus="loop">
+                <option value="${item}">${item}</option>
+            </c:forEach><br>
+        </select>
+
+    </c:forEach>
+
+<%--    <select id="utorak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">--%>
+<%--        <option value="" selected>Open this select menu</option>--%>
+<%--        <option value="1">One</option>--%>
+<%--        <option value="2">Two</option>--%>
+<%--        <option value="3">Three</option>--%>
+<%--    </select>--%>
+<%--    <label class="paylabel" for="sreda">Sreda:</label>--%>
+<%--    <select id="sreda" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">--%>
+<%--        <option selected value="">Open this select menu</option>--%>
+<%--        <option value="1">One</option>--%>
+<%--        <option value="2">Two</option>--%>
+<%--        <option value="3">Three</option>--%>
+<%--    </select>--%>
+<%--    <label class="paylabel" for="cetvrtak">Četvrtak:</label>--%>
+<%--    <select id="cetvrtak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">--%>
+<%--        <option selected value="">Open this select menu</option>--%>
+<%--        <option value="1">One</option>--%>
+<%--        <option value="2">Two</option>--%>
+<%--        <option value="3">Three</option>--%>
+<%--    </select>--%>
+<%--    <label class="paylabel" for="petak">Petak:</label>--%>
+<%--    <select id="petak" style="width: 15em; text-align: center; margin: 1em auto;"  class="form-select" aria-label="Default select example">--%>
+<%--        <option selected value="">Open this select menu</option>--%>
+<%--        <option value="1">One</option>--%>
+<%--        <option value="2">Two</option>--%>
+<%--        <option value="3">Three</option>--%>
+<%--    </select>--%>
 
     <input id="btn" style="background: blueviolet; color: azure;" type="submit" name="submit" class="button" value="Potvrdite unos" onmouseover="validate()">
 </form>
